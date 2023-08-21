@@ -28,8 +28,17 @@ router.post("/", async (req, res) => {
   res.send(tag);
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
   // update a tag's name by its `id` value
+  const tagId = req.params.id;
+  const [count, data] = await Tag.update(req.body, {
+    where: { id: tagId },
+  });
+  if (count > 0) {
+    res.send("Tag updated successfully!");
+  } else {
+    res.send("Nothing to be updated!");
+  }
 });
 
 router.delete("/:id", async (req, res) => {
